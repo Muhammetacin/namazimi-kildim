@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Namazımı Kıldım!",
+    "slug": "namazimi-kildim",
+    "scheme": "namazimikildim",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "plugins": [
+      "expo-router"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.namazimikildim.app"
+    },
+    "android": {
+      "package": "com.namazimikildim.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    }
+  }
+}
