@@ -8,12 +8,20 @@ if [[ -z "$udid" ]]; then
 fi
 xcrun simctl bootstatus "$udid" -b
 workspace="$(find ios -maxdepth 1 -name '*.xcworkspace' -print -quit)"
-scheme="$(xcodebuild -workspace "$workspace" -list -json | python3 -c 'import json,sys; print(next(s for s in json.load(sys.stdin)["workspace"]["schemes"] if s != "Pods"))')"
+scheme="$(basename "$workspace" .xcworkspace)"
+echo "Building application scheme: $scheme"
 xcodebuild -workspace "$workspace" -scheme "$scheme" -configuration Release -sdk iphonesimulator -destination "id=$udid" -derivedDataPath /tmp/foundation-ios CODE_SIGNING_ALLOWED=NO build
 app="$(find /tmp/foundation-ios/Build/Products/Release-iphonesimulator -maxdepth 1 -name '*.app' -print -quit)"
-test -n "$app"
+if [[ -z "$app" ]]; then
+  echo "Application bundle not found" >&2
+  exit 1
+fi
+echo "Installing $app"
 xcrun simctl install "$udid" "$app"
-xcrun simctl launch "$udid" "$app_id"
+launch="$(xcrun simctl launch "$udid" "$app_id")"
+echo "$launch"
+pid="${launch##*: }"
+[[ "$pid" =~ ^[0-9]+$ ]]
 sleep 10
-xcrun simctl spawn "$udid" launchctl list | grep -F "$app_id"
+xcrun simctl spawn "$udid" launchctl list | awk -v pid="$pid" '$1 == pid { found=1 } END { exit !found }'
 xcrun simctl io "$udid" screenshot /tmp/foundation-ios.png
