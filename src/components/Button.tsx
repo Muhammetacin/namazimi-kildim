@@ -14,11 +14,7 @@ export function Button({ label, onPress, disabled = false }: Props) {
       accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.button,
-        disabled && styles.disabled,
-        pressed && styles.pressed,
-      ]}
+      style={({ pressed }) => [styles.button, disabled && styles.disabled, pressed && styles.pressed]}
     >
       <Text style={[styles.label, disabled && styles.disabledLabel]}>{label}</Text>
     </Pressable>
