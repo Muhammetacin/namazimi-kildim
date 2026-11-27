@@ -29,10 +29,7 @@ export default function Onboarding() {
       <Button label="Geri" onPress={() => move('back')} />
       <Button
         label={current === onboardingSteps.length - 1 ? 'Bitir' : 'İleri'}
-        onPress={() => {
-          if (current < steps.length - 1) setCurrent(current + 1);
-          else router.replace('/');
-        }}
+        onPress={() => move('next')}
       />
     </Screen>
   );
