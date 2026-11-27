@@ -2,6 +2,8 @@ import { Text } from 'react-native';
 import { tokens } from '../theme/tokens';
 
 const glyphs = {
+  clock: '◷',
+  list: '☰',
   check: '✓',
   back: '‹',
   next: '›',
