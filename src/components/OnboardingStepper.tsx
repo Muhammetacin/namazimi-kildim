@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { tokens } from '../theme/tokens';
+import { normalizeStep } from './stepper-state';
 
 type Props = { steps: readonly string[]; current: number };
 
 export function OnboardingStepper({ steps, current }: Props) {
   if (steps.length === 0) return null;
-  const active = Number.isFinite(current)
-    ? Math.min(Math.max(Math.trunc(current), 0), steps.length - 1)
-    : 0;
+  const active = normalizeStep(current, steps.length);
 
   return (
     <View style={styles.row}>
