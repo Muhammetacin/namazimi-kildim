@@ -8,19 +8,18 @@ type Props = {
 };
 
 export function Button({ label, onPress, disabled = false }: Props) {
+  const labelStyle = [styles.label, disabled && styles.disabledLabel];
+  const buttonStyle = [styles.button, disabled && styles.disabled];
+
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.button,
-        disabled && styles.disabled,
-        pressed && styles.pressed,
-      ]}
+      style={({ pressed }) => [...buttonStyle, pressed && styles.pressed]}
     >
-      <Text style={[styles.label, disabled && styles.disabledLabel]}>{label}</Text>
+      <Text style={labelStyle}>{label}</Text>
     </Pressable>
   );
 }
