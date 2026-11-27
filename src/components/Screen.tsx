@@ -15,6 +15,10 @@ export function Screen({ children }: { children: ReactNode }) {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: tokens.colors.background },
-  scroll: { flexGrow: 1, alignItems: 'center', padding: tokens.spacing.md },
+  scroll: {
+    flexGrow: 1,
+    alignItems: 'center',
+    padding: tokens.spacing.md,
+  },
   content: { width: '100%', maxWidth: tokens.contentWidth, gap: tokens.spacing.md },
 });
