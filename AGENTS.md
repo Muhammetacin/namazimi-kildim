@@ -1,4 +1,5 @@
 # Development rules
+
 - Final Design v1.1 is the approved reference; no unapproved redesign.
 - Expo + React Native + TypeScript + pnpm; iOS, Android, PWA.
 - Offline-first; no account or cloud storage in MVP. Never log personal prayer data.
