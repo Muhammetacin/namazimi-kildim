@@ -26,16 +26,14 @@ test('tracking square exposes recorded and disabled state', () => {
   });
   square.props.onPress();
   expect(onPress).toHaveBeenCalledTimes(1);
-  expect(StyleSheet.flatten(square.props.style).minWidth).toBeGreaterThanOrEqual(
-    tokens.touchTarget,
-  );
+  const style = StyleSheet.flatten(square.props.style);
+  expect(style.minWidth).toBeGreaterThanOrEqual(tokens.touchTarget);
 });
 
 test('icons expose a label only when informative', () => {
   expect(Icon({ name: 'check' }).props.accessible).toBe(false);
-  expect(Icon({ name: 'info', label: 'Bilgi' }).props.accessibilityLabel).toBe(
-    'Bilgi',
-  );
+  const info = Icon({ name: 'info', label: 'Bilgi' });
+  expect(info.props.accessibilityLabel).toBe('Bilgi');
 });
 
 test('language flags expose labels and handle invalid codes', () => {
