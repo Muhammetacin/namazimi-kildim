@@ -20,5 +20,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: tokens.spacing.md,
   },
-  content: { width: '100%', maxWidth: tokens.contentWidth, gap: tokens.spacing.md },
+  content: {
+    width: '100%',
+    maxWidth: tokens.contentWidth,
+    gap: tokens.spacing.md,
+  },
 });

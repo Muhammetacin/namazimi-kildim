@@ -14,7 +14,11 @@ export function Button({ label, onPress, disabled = false }: Props) {
       accessibilityState={{ disabled }}
       disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [styles.button, disabled && styles.disabled, pressed && styles.pressed]}
+      style={({ pressed }) => [
+        styles.button,
+        disabled && styles.disabled,
+        pressed && styles.pressed,
+      ]}
     >
       <Text style={[styles.label, disabled && styles.disabledLabel]}>{label}</Text>
     </Pressable>
@@ -32,6 +36,10 @@ const styles = StyleSheet.create({
   },
   disabled: { backgroundColor: tokens.colors.inactive },
   pressed: { opacity: 0.85 },
-  label: { color: tokens.colors.white, fontSize: tokens.typography.body, fontWeight: '600' },
+  label: {
+    color: tokens.colors.white,
+    fontSize: tokens.typography.body,
+    fontWeight: '600',
+  },
   disabledLabel: { color: tokens.colors.text },
 });
