@@ -7,3 +7,5 @@
 - Work by NK ticket and epic branch. Require tests, CI, review and explicit epic acceptance before merging main.
 - Unrecorded prayers are not proof of missed prayers. Sunrise ends Fajr; verify calculation methods against local timetables, including DST and high latitudes.
 - No fake test results; document device/platform gaps.
+
+- GitHub Free private repository: owner approved temporary waiver of server-enforced branch protection. Check all required jobs for the exact PR head and review before merging; no direct main changes.
