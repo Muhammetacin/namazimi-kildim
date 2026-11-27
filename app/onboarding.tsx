@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { Button } from '../src/components/Button';
 import { OnboardingStepper } from '../src/components/OnboardingStepper';
 import { Screen } from '../src/components/Screen';
 import { tokens } from '../src/theme/tokens';
 
-const steps = ['Dil', 'Konum', 'Ayarlar'];
+const steps = ['Dil', 'Konum', 'Bildirim'];
 
 export default function Onboarding() {
   const router = useRouter();
@@ -15,10 +15,7 @@ export default function Onboarding() {
   return (
     <Screen>
       <OnboardingStepper steps={steps} current={current} />
-      <Text
-        accessibilityRole="header"
-        style={{ color: tokens.colors.text, fontSize: tokens.typography.heading }}
-      >
+      <Text accessibilityRole="header" style={styles.heading}>
         {steps[current]}
       </Text>
       <Button
@@ -38,3 +35,10 @@ export default function Onboarding() {
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  heading: {
+    color: tokens.colors.text,
+    fontSize: tokens.typography.heading,
+  },
+});
