@@ -5,28 +5,30 @@ import { Button } from '../src/components/Button';
 import { OnboardingStepper } from '../src/components/OnboardingStepper';
 import { Screen } from '../src/components/Screen';
 import { tokens } from '../src/theme/tokens';
-
-const steps = ['Dil', 'Konum', 'Bildirim'];
+import {
+  moveOnboarding,
+  onboardingSteps,
+} from '../src/components/onboarding-navigation';
 
 export default function Onboarding() {
   const router = useRouter();
   const [current, setCurrent] = useState(0);
 
+  function move(direction: 'back' | 'next') {
+    const next = moveOnboarding(current, direction);
+    if (next === 'home') router.replace('/');
+    else setCurrent(next);
+  }
+
   return (
     <Screen>
-      <OnboardingStepper steps={steps} current={current} />
+      <OnboardingStepper steps={onboardingSteps} current={current} />
       <Text accessibilityRole="header" style={styles.heading}>
-        {steps[current]}
+        {onboardingSteps[current]}
       </Text>
+      <Button label="Geri" onPress={() => move('back')} />
       <Button
-        label="Geri"
-        onPress={() => {
-          if (current > 0) setCurrent(current - 1);
-          else router.replace('/');
-        }}
-      />
-      <Button
-        label={current === steps.length - 1 ? 'Bitir' : 'İleri'}
+        label={current === onboardingSteps.length - 1 ? 'Bitir' : 'İleri'}
         onPress={() => {
           if (current < steps.length - 1) setCurrent(current + 1);
           else router.replace('/');
