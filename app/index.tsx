@@ -15,6 +15,7 @@ export default function Home() {
         </Text>
         <Text style={styles.subtitle}>Vaktini bil, ibadetini takip et.</Text>
         <Button label="Başla" onPress={() => router.push('/onboarding')} />
+        <Button label="Ayarlar" onPress={() => router.push('/ayarlar')} />
       </View>
     </Screen>
   );
