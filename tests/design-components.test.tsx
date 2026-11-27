@@ -47,3 +47,27 @@ test('language flags expose labels and handle invalid codes', () => {
 test('empty onboarding steps render nothing', () => {
   expect(OnboardingStepper({ steps: [], current: 0 })).toBeNull();
 });
+
+test('unrecorded disabled tracking square exposes both states', () => {
+  const square = TrackingSquare({
+    label: 'Sabah',
+    recorded: false,
+    disabled: true,
+    onPress: jest.fn(),
+  });
+  expect(square.props.disabled).toBe(true);
+  expect(square.props.accessibilityState).toEqual({
+    checked: false,
+    disabled: true,
+  });
+  const style = StyleSheet.flatten(square.props.style);
+  expect(style.minHeight).toBeGreaterThanOrEqual(tokens.touchTarget);
+});
+
+test('enabled button forwards its action', () => {
+  const onPress = jest.fn();
+  const button = Button({ label: 'İleri', onPress });
+  expect(button.props.disabled).toBe(false);
+  button.props.onPress();
+  expect(onPress).toHaveBeenCalledTimes(1);
+});
