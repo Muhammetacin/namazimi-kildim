@@ -18,6 +18,8 @@ export function Icon({ name, label }: Props) {
   return (
     <Text
       accessible={Boolean(label)}
+      accessibilityElementsHidden={!label}
+      importantForAccessibility={label ? 'auto' : 'no-hide-descendants'}
       accessibilityLabel={label}
       style={{ color: tokens.colors.primary, fontSize: tokens.typography.body }}
     >
