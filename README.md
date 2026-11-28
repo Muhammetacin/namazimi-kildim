@@ -1,6 +1,6 @@
 # Namazımı Kıldım!
 
-Private project for iOS, Android and PWA. Approved Final Design v1.1.
+Private project for iOS, Android and PWA. Approved Final Design v1.3 ([interactive reference](docs/design/namazimi-kildim-v1.3.html), [changes since v1.1](docs/design/CHANGELOG-v1.3.md)).
 
 ## Development
 

@@ -8,7 +8,7 @@ export default function RootLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: tokens.colors.primary,
-        tabBarInactiveTintColor: tokens.colors.text,
+        tabBarInactiveTintColor: tokens.colors.muted,
         tabBarStyle: { backgroundColor: tokens.colors.background },
       }}
     >
@@ -16,21 +16,21 @@ export default function RootLayout() {
         name="index"
         options={{
           title: 'Saat',
-          tabBarIcon: () => <Icon name="clock" />,
+          tabBarIcon: ({ color }) => <Icon name="clock" color={color} />,
         }}
       />
       <Tabs.Screen
         name="vakitler"
         options={{
           title: 'Vakitler',
-          tabBarIcon: () => <Icon name="list" />,
+          tabBarIcon: ({ color }) => <Icon name="calendar" color={color} />,
         }}
       />
       <Tabs.Screen
         name="takip"
         options={{
           title: 'Takip',
-          tabBarIcon: () => <Icon name="check" />,
+          tabBarIcon: ({ color }) => <Icon name="grid" color={color} />,
         }}
       />
       <Tabs.Screen

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Button } from '../src/components/Button';
 import { Icon } from '../src/components/Icon';
+import { iconShapes } from '../src/components/icon-shapes';
 import { LanguageFlag } from '../src/components/LanguageFlag';
 import { OnboardingStepper } from '../src/components/OnboardingStepper';
 import { TrackingSquare } from '../src/components/TrackingSquare';
@@ -83,4 +84,35 @@ test('enabled button forwards its action', () => {
 test.each(['ß', 'ıı', 'TR\n', 'T1'])('rejects invalid flag code %s', (code) => {
   const flag = LanguageFlag({ countryCode: code, label: 'Dil' });
   expect(flag.props.children.props.children).toBe('—');
+});
+
+test('shape icons keep the label contract and use the requested size', () => {
+  const icon = Icon({ name: 'settings', label: 'Ayarlar', size: 48 });
+  expect(icon.props.accessibilityLabel).toBe('Ayarlar');
+  expect(icon.props.accessible).toBe(true);
+  expect(icon.props.importantForAccessibility).toBe('auto');
+  expect(StyleSheet.flatten(icon.props.style)).toMatchObject({
+    width: 48,
+    height: 48,
+  });
+  expect(icon.props.children).toHaveLength(iconShapes.settings.length);
+});
+
+test('decorative shape icons are hidden from accessibility', () => {
+  const icon = Icon({ name: 'grid' });
+  expect(icon.props.accessible).toBe(false);
+  expect(icon.props.accessibilityElementsHidden).toBe(true);
+  expect(icon.props.importantForAccessibility).toBe('no-hide-descendants');
+});
+
+test('shape icons draw every part in the requested color', () => {
+  const icon = Icon({ name: 'clock', color: '#123456' });
+  for (const part of icon.props.children) {
+    expect(part.props.style.borderColor).toBe('#123456');
+  }
+});
+
+test('glyph icons also use the requested color', () => {
+  const icon = Icon({ name: 'check', color: '#123456' });
+  expect(StyleSheet.flatten(icon.props.style).color).toBe('#123456');
 });

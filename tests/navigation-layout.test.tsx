@@ -25,3 +25,27 @@ test('uses a scrolling screen with a bounded flexible content width', () => {
     maxWidth: tokens.contentWidth,
   });
 });
+
+test('tabs use the approved clock, calendar and grid icons in the tab color', () => {
+  const layout = RootLayout();
+  const tabs = layout.props.children;
+  const icons = tabs
+    .slice(0, 3)
+    .map(
+      (tab: {
+        props: { options: { tabBarIcon: (p: { color: string }) => unknown } };
+      }) => tab.props.options.tabBarIcon({ color: '#123456' }),
+    );
+  expect(
+    icons.map((icon: { props: { name: string } }) => icon.props.name),
+  ).toEqual(['clock', 'calendar', 'grid']);
+  for (const icon of icons) {
+    expect((icon as { props: { color: string } }).props.color).toBe('#123456');
+  }
+});
+
+test('inactive tabs use the muted color and active tabs emerald', () => {
+  const options = RootLayout().props.screenOptions;
+  expect(options.tabBarActiveTintColor).toBe(tokens.colors.primary);
+  expect(options.tabBarInactiveTintColor).toBe(tokens.colors.muted);
+});
