@@ -1,6 +1,7 @@
 name: Foundation CI
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
   push:
     branches: [main]
 concurrency:
@@ -12,12 +13,35 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      smoke_required: ${{ steps.smoke.outputs.required }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Determine whether native smoke is required
+        id: smoke
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [[ "$EVENT_NAME" != "pull_request" || "$DRAFT" != "true" ]]; then
+            echo "required=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git diff --name-only "$BASE_SHA...$HEAD_SHA" > "$RUNNER_TEMP/changed-files.txt"
+          if grep -Eq '(^|/)(android|ios|plugins|native)/|^src/(platform|permissions|notifications|location)/|^app\.(json|config\.[^/]+)$|^(package\.json|pnpm-lock\.yaml|eas\.json|metro\.config\.[^/]+|babel\.config\.[^/]+)$|^\.github/workflows/|^scripts/.*smoke' "$RUNNER_TEMP/changed-files.txt"; then
+            echo "required=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "required=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
+          package-manager-cache: false
       - run: git ls-files --error-unmatch pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
@@ -28,15 +52,18 @@ jobs:
       - name: Verify native JS bundles
         run: pnpm exec expo export --platform all
   android-smoke:
+    needs: quality
+    if: needs.quality.outputs.smoke_required == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
-      - uses: actions/setup-java@v4
+          package-manager-cache: false
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -59,14 +86,17 @@ jobs:
           disable-animations: true
           script: bash scripts/android-smoke.sh
   ios-smoke:
+    needs: quality
+    if: needs.quality.outputs.smoke_required == 'true'
     runs-on: macos-15
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
+          package-manager-cache: false
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec expo prebuild --platform ios --no-install
       - name: Install CocoaPods
