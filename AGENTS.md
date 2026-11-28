@@ -1,6 +1,6 @@
 # Development rules
 
-- Final Design v1.1 is the approved reference; no unapproved redesign.
+- Final Design v1.3 (`docs/design/namazimi-kildim-v1.3.html`, approved by the owner on 2026-11-28) is the approved reference and supersedes v1.1; no unapproved redesign. Changes since v1.1 are listed in `docs/design/CHANGELOG-v1.3.md`.
 - Expo + React Native + TypeScript + pnpm; iOS, Android, PWA.
 - Offline-first; no account or cloud storage in MVP. Never log personal prayer data.
 - Keep domain logic independent of UI and platform storage.
