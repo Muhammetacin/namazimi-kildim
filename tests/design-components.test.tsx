@@ -34,7 +34,9 @@ test('icons expose a label only when informative', () => {
   const decorative = Icon({ name: 'check' });
   expect(decorative.props.accessible).toBe(false);
   expect(decorative.props.accessibilityElementsHidden).toBe(true);
-  expect(decorative.props.importantForAccessibility).toBe('no-hide-descendants');
+  expect(decorative.props.importantForAccessibility).toBe(
+    'no-hide-descendants',
+  );
   const info = Icon({ name: 'info', label: 'Bilgi' });
   expect(info.props.accessibilityLabel).toBe('Bilgi');
   expect(info.props.accessible).toBe(true);
