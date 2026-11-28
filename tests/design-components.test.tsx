@@ -31,9 +31,15 @@ test('tracking square exposes recorded and disabled state', () => {
 });
 
 test('icons expose a label only when informative', () => {
-  expect(Icon({ name: 'check' }).props.accessible).toBe(false);
+  const decorative = Icon({ name: 'check' });
+  expect(decorative.props.accessible).toBe(false);
+  expect(decorative.props.accessibilityElementsHidden).toBe(true);
+  expect(decorative.props.importantForAccessibility).toBe('no-hide-descendants');
   const info = Icon({ name: 'info', label: 'Bilgi' });
   expect(info.props.accessibilityLabel).toBe('Bilgi');
+  expect(info.props.accessible).toBe(true);
+  expect(info.props.accessibilityElementsHidden).toBe(false);
+  expect(info.props.importantForAccessibility).toBe('auto');
 });
 
 test('language flags expose labels and handle invalid codes', () => {
