@@ -79,3 +79,8 @@ test('enabled button forwards its action', () => {
   button.props.onPress();
   expect(onPress).toHaveBeenCalledTimes(1);
 });
+
+test.each(['ß', 'ıı', 'TR\n', 'T1'])('rejects invalid flag code %s', (code) => {
+  const flag = LanguageFlag({ countryCode: code, label: 'Dil' });
+  expect(flag.props.children.props.children).toBe('—');
+});
